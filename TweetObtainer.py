@@ -38,7 +38,7 @@ class TweetObtainer(StreamListener):
         sentiment = self.sentimentAnalyzer.analyse(tweet)
         self.writer.write(sentiment + data )
         self.liveView.update(sentiment)
-        
+
     def on_error(self, status_code):
         print('Got an error with status code: ' + str(status_code))
         return True # To continue listening

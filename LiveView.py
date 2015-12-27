@@ -19,6 +19,7 @@ class LiveView():
         self.y = 0
         plt.show()
 
+#Gets called each time data is obtained by TweetObtainer
     def update(self,text):
         self.x += 1
         if text.startswith("pos"):
