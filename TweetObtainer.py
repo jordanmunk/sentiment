@@ -10,12 +10,14 @@ class TweetObtainer(StreamListener):
     sentimentAnalyzer = ''
     tokens = ''
     parameter = ''
-    def __init__(self, parameter):
+    liveView = ''
+    def __init__(self, parameter, liveView):
         self.sentimentAnalyzer = SentimentAnalyzer()
         self.writer = Writer()
         self.parameter = parameter
         print('Creating token')
         self.tokens = Token()
+        self.liveView = liveView
 
     def init_stream(self):
         self.writer.setSaveFile('StreamedTweets.txt')
@@ -35,7 +37,8 @@ class TweetObtainer(StreamListener):
         print(tweet)
         sentiment = self.sentimentAnalyzer.analyse(tweet)
         self.writer.write(sentiment + data )
-#       self.plotter.update()
+        self.liveView.update(sentiment)
+        
     def on_error(self, status_code):
         print('Got an error with status code: ' + str(status_code))
         return True # To continue listening

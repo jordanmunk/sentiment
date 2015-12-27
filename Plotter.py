@@ -26,9 +26,9 @@ def animate(i):
 
     for l in lines[-200:]:
         x += 1
-        if "pos" in l:
+        if l.startswith("pos"):
             y += 1
-        elif "neg" in l:
+        elif l.startswith("neg"):
             y -= 1
 
         xar.append(x)
