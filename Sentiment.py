@@ -10,7 +10,7 @@ class SentimentChecker:
 
     def analyse_file(self,filename):
         for line in open(filename, 'r'):
-             sentiment = self.analyse(line)
+             sentiment = self.analyse(line.tokenize())
              sentiment = self.sentiment(sentiment)
              self.writer.write(sentiment+' '+line)
              

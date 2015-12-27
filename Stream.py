@@ -10,7 +10,7 @@ from tweepy.streaming import StreamListener
 
 #Class used to receive the stream from twitter API
 class StdOutListener(StreamListener):
-    sentiment_checker =''
+    my_sentiment_checker = SentimentChecker()
     writer = Writer('tweets.txt')
     def __init__(self, sentiment_checker):
         self.sentiment_checker = sentiment_checker
@@ -22,6 +22,7 @@ class StdOutListener(StreamListener):
         processed_tweet = new_tweet.preprocess()
         print(processed_tweet)
         self.writer.write(processed_tweet+'\n')
+        self.my_sentiment_checker.analyse(processed_tweet)
 
     def on_error(self, status_code):
         print('Got an error with status code: ' + str(status_code))

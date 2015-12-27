@@ -3,13 +3,20 @@ import matplotlib.animation as animation
 from matplotlib import style
 import time
 
+class Plotter():
+    def __init__(self):
+        print("init called")
+
+    def update(self):
+        print("Update")
+
 style.use("ggplot")
 
 fig = plt.figure()
 ax1 = fig.add_subplot(1,1,1)
 
 def animate(i):
-    pullData = open("tweets.txt","r").read()
+    pullData = open("sentiments.txt","r").read()
     lines = pullData.split('\n')
 
     xar = []
