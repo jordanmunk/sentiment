@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib import style
-import time
 
 class Plotter():
     def __init__(self):
@@ -16,7 +15,7 @@ fig = plt.figure()
 ax1 = fig.add_subplot(1,1,1)
 
 def animate(i):
-    pullData = open("sentiments.txt","r").read()
+    pullData = open("StreamedTweets.txt","r").read()
     lines = pullData.split('\n')
 
     xar = []
