@@ -1,7 +1,9 @@
 from TweetObtainer import TweetObtainer
 import threading
+
 class Controller():
     mainView =''
+    tweetObtainer = None
 
     def __init__(self):
         print("Controller created")
@@ -10,11 +12,14 @@ class Controller():
         self.mainView = view
 
     def start_stream(self, parameter):
-        tweetObtainer = TweetObtainer(parameter, self.mainView)
-        tweetObtainer.init_stream()
-        t2 = threading.Thread(target=tweetObtainer.start())
-        t2.daemon = True
-        t2.start()
+        self.tweetObtainer = TweetObtainer(parameter, self.mainView)
+        self.tweetObtainer.init_stream()
+        self.thread = threading.Thread(target = lambda : self.tweetObtainer.start())
+        self.thread.daemon = True
+        self.thread.start()
+
+    def stop_stream(self):
+        self.tweetObtainer.stop_stream()
 
 
 

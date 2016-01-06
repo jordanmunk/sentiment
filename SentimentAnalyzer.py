@@ -1,12 +1,22 @@
 import re
 
+def read_words(filename):
+    with open(filename, 'r', encoding='utf-8') as file:
+        data = file.read().split("\n")
+        print(data)
+        return data
+
+
 class SentimentAnalyzer():
     #local variables
-    pos_words = ['good','best','awesome','amazing','epic','nice','happy','love','<3','true','right']
-    neg_words = ['bad','worst','terrible','can\'t','bad','not','fuck','mean','hate','sad','false','wrong']
-    neut_words = ['okay']
+    pos_words = []
+    neg_words = []
+    neut_words = []
     sentiment_score = ''
-
+    def __init__(self):
+        self.pos_words = read_words("PositiveWords.txt")
+        self.neg_words = read_words("NegativeWords.txt")
+        self.pos_words = read_words("NeutralWords.txt")
 
     def preprocess(self, text):
         #Encode to prevent writing issues..

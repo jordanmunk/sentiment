@@ -1,19 +1,20 @@
 import tweepy
-from Tokens import consumer_key, consumer_secret, access_secret, access_token
+from Tokens import consumer_key, consumer_secret, \
+    access_secret, access_token
 from SentimentAnalyzer import SentimentAnalyzer
 from Writer import Writer
 from tweepy import Stream
 from tweepy.streaming import StreamListener
-from Views import *
 import json
 
 class TweetObtainer(StreamListener):
-    writer = ''
-    sentimentAnalyzer = ''
+    writer = None
+    sentimentAnalyzer = None
     tokens = ''
     parameter = ''
-    liveView = ''
+    liveView = None
     currentNumber = 0
+    stream = None
 
     def __init__(self, parameter, liveView):
         self.sentimentAnalyzer = SentimentAnalyzer()
@@ -33,8 +34,8 @@ class TweetObtainer(StreamListener):
         #TwitterAPI authorization
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_token, access_secret)
-        stream = Stream(auth, self)
-        stream.filter(track=[self.parameter], languages=['en'])
+        self.stream = Stream(auth, self)
+        self.stream.filter(track=[self.parameter], languages=['en'])
 
     #Gets called everytime data is streamed through the Twitter API
     def on_data(self, data):
@@ -59,3 +60,6 @@ class TweetObtainer(StreamListener):
     def on_timeout(self):
         print('Timeout...')
         return True # To continue listening
+
+    def stop_stream(self):
+        self.stream.disconnect()

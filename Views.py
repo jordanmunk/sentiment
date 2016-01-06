@@ -1,7 +1,6 @@
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
-import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib import style
 import tkinter as tk
@@ -10,17 +9,17 @@ from tkinter import ttk
 LARGE_FONT= ("Verdana", 12)
 style.use("ggplot")
 
-f = Figure(figsize=(5,5), dpi=100)
-a = f.add_subplot(111)
+figure = Figure(figsize=(5, 5), dpi=100)
+figure_axes = figure.add_subplot(111)
 
 class HomeView(tk.Tk):
     controller =''
     frames ={}
 
-    def __init__(self, controller, *args, **kwargs):
+    def __init__(self, mainController, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        tk.Tk.wm_title(self, "Sea of BTC client")
-        self.controller = controller
+        tk.Tk.wm_title(self, "Anton's Bad Sentiment Analyzer")
+        self.controller = mainController
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand = True)
@@ -97,14 +96,19 @@ class PieChartView(tk.Frame):
 class LiveView(tk.Frame):
     xar = []
     yar = []
+    x = 0
+    y = 0
+    canvas = None
+    controller = None
 
     def __init__(self, parent, controller):
+        self.controller = controller
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Live graphing !", font=LARGE_FONT)
         label.pack(pady=10,padx=10)
 
         button1 = ttk.Button(self, text="Back to Home",
-                             command=lambda: controller.show_frame(WelcomePage))
+                             command=lambda: self.stop())
         button1.pack()
 
         entry1 = ttk.Entry(self)
@@ -113,29 +117,32 @@ class LiveView(tk.Frame):
                              command=lambda: controller.start_stream(entry1.get()) )
         button3.pack()
 
-        canvas = FigureCanvasTkAgg(f, self)
-        canvas.show()
-        canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        self.canvas = FigureCanvasTkAgg(figure, self)
+        self.canvas.show()
+        self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
-        toolbar = NavigationToolbar2TkAgg(canvas, self)
+        toolbar = NavigationToolbar2TkAgg(self.canvas, self)
         toolbar.update()
-        canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+    def stop(self):
+        self.controller.show_frame(WelcomePage)
+        self.controller.controller.stop_stream()
 
     def update(self, text):
-        x = 0
-        y = 0
         print("Update called")
-        x += 1
+        self.x += 1
         if text.startswith("pos"):
-            y += 1
+            self.y += 1
         elif text.startswith("neg"):
-            y -= 1
+            self.y -= 1
 
-        self.xar.append(x)
-        self.yar.append(y)
+        self.xar.append(self.x)
+        self.yar.append(self.y)
 
-        a.clear()
-        a.plot(self.xar,self.yar)
+        figure_axes.clear()
+        figure_axes.plot(self.xar, self.yar)
+        self.canvas.draw()
 
 #ani = animation.FuncAnimation(f, update, interval=1000)
 
