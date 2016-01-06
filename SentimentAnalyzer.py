@@ -1,5 +1,4 @@
 import re
-import json
 
 class SentimentAnalyzer():
     #local variables
@@ -10,11 +9,8 @@ class SentimentAnalyzer():
 
 
     def preprocess(self, text):
-        text = json.loads(text)
-        #Use only the text field of obtained JSON String
-        text = text['text']
         #Encode to prevent writing issues..
-        text.encode('utf8','ignore')
+        #text = text.encode('utf8','ignore')
 
         #Convert to lower case
         text = text.lower()
@@ -26,11 +22,11 @@ class SentimentAnalyzer():
         text = re.sub('[\s]+', ' ', text)
         #Replace #word with word
         text = re.sub(r'#([^\s]+)', r'\1', text)
-        #Remove smileys
-        #tweet = re.sub('(\u[^\s]+)','Smiley',tweet)
+
         #trim
         text = text.strip('\'"')
         text = text.split()
+
         return text
 
     def analyse(self, processedText):

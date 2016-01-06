@@ -1,6 +1,8 @@
 from Controller import Controller
-from MainView import MainView
+from Screens import *
 
 if __name__ == '__main__':
     mainController = Controller()
-    mainView = MainView(mainController)
+    mainView = HomeView(mainController)
+    mainController.setView(mainView.get_about())
+    mainView.mainloop()

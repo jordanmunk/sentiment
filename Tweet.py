@@ -23,8 +23,6 @@ class TweetPreprocessor:
         tweet = re.sub('[\s]+', ' ', tweet)
         #Replace #word with word
         tweet = re.sub(r'#([^\s]+)', r'\1', tweet)
-        #Remove smileys
-        #tweet = re.sub('(\u[^\s]+)','Smiley',tweet)
         #trim
         tweet = tweet.strip('\'"')
         self.text = tweet
