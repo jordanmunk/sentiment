@@ -1,5 +1,5 @@
 from Controller import Controller
-from Screens import *
+from Views import *
 
 if __name__ == '__main__':
     mainController = Controller()

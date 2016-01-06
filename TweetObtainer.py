@@ -4,7 +4,7 @@ from SentimentAnalyzer import SentimentAnalyzer
 from Writer import Writer
 from tweepy import Stream
 from tweepy.streaming import StreamListener
-from Screens import *
+from Views import *
 import json
 
 class TweetObtainer(StreamListener):
