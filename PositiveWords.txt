@@ -8,4 +8,8 @@ happy
 love
 <3
 true
+cool
+wicked
+lovely
+sexy
 right

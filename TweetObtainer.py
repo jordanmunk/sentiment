@@ -13,15 +13,17 @@ class TweetObtainer(StreamListener):
     tokens = ''
     parameter = ''
     liveView = None
+    pieView = None
     currentNumber = 0
     stream = None
 
-    def __init__(self, parameter, liveView):
+    def __init__(self, parameter, liveView, pieView):
         self.sentimentAnalyzer = SentimentAnalyzer()
         self.writer = Writer()
         self.parameter = parameter
         print('Creating token')
         self.liveView = liveView
+        self.pieView = pieView
 
     def init_stream(self):
         self.writer.setSaveFile('StreamedTweets.txt')
@@ -51,6 +53,7 @@ class TweetObtainer(StreamListener):
                 self.writer.write(sentiment + text)
                 self.currentNumber += 1
             self.liveView.update(sentiment)
+            self.pieView.update()
         return True
 
     def on_error(self, status_code):

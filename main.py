@@ -4,5 +4,5 @@ from Views import *
 if __name__ == '__main__':
     mainController = Controller()
     mainView = HomeView(mainController)
-    mainController.setView(mainView.get_about())
+    mainController.setView(mainView.get_live(), mainView.get_pie())
     mainView.mainloop()
