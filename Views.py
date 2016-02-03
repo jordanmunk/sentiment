@@ -114,7 +114,8 @@ class AboutView(tk.Frame):
         label = tk.Label(self, text="About", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
         label2 = tk.Label(self, text="Gemaakt voor het vak ISCP in "
-                                     "studiejaar 2015-2016")
+                                     "studiejaar 2015-2016. Ik heb gebruik gemaakt van Tweepy, "
+                                     "TKinter, Matplotlib en Numpy")
         label2.pack(pady=10, padx=10)
 
         button1 = ttk.Button(self, text="Back to Home",
