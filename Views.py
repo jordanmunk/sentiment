@@ -66,8 +66,15 @@ class WelcomePage(tk.Frame):
     def __init__(self, parent, controller):
         self.controller = controller
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Start Page", font=LARGE_FONT)
+        label = tk.Label(self, text="Anton's Bad Sentiment Analyzer",
+                         font=LARGE_FONT)
         label.pack(pady=10, padx=10)
+        label2 = tk.Label(self, text="Tweets worden opgeslagen in "
+                                     "StreamedTweets.txt totdat je in een "
+                                     "sessie meer dan 10.000 tweets hebt "
+                                     "opgehaald.",
+                         )
+        label2.pack(pady=10, padx=10)
         button = ttk.Button(self, text="About",
                             command=lambda: controller.show_frame(AboutView))
         button.pack()
@@ -88,6 +95,9 @@ class AboutView(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="About", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
+        label2 = tk.Label(self, text="Gemaakt voor het vak ISCP in "
+                                     "studiejaar 2015-2016")
+        label2.pack(pady=10, padx=10)
 
         button1 = ttk.Button(self, text="Back to Home",
                              command=lambda: controller.show_frame(
@@ -100,20 +110,19 @@ class AboutView(tk.Frame):
 
 
 class PieChartView(tk.Frame):
-    global pos
-    global neg
-    global neut
     canvas = None
-
+    controller = None
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+        self.controller = controller
         label = tk.Label(self, text="Pie chart", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
         labels = 'Positive', 'Neutral', 'Negative'
         amount = [pos, neut, neg]
         print(amount)
-        colors = ['yellowgreen', 'mediumpurple', 'lightskyblue']
-        explode = (0.1, 0, 0)  # proportion with which to offset each wedge
+        colors = ['green', 'lightskyblue', 'red']
+        explode = (0, 0.05, 0)  # proportion with which to offset each
+        # wedge
         entry1 = ttk.Entry(self)
         entry1.pack()
         button3 = ttk.Button(self, text="Start stream ",
@@ -199,7 +208,7 @@ class LiveView(tk.Frame):
             self.y -= 1
             global neg
             neg += 1
-        else:
+        elif text.startswith("neut"):
             global neut
             neut += 1
         self.xar.append(self.x)

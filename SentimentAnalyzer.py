@@ -16,7 +16,7 @@ class SentimentAnalyzer():
     def __init__(self):
         self.pos_words = read_words("PositiveWords.txt")
         self.neg_words = read_words("NegativeWords.txt")
-        self.pos_words = read_words("NeutralWords.txt")
+        self.neut_words = read_words("NeutralWords.txt")
 
     def preprocess(self, text):
         #Encode to prevent writing issues..
@@ -44,7 +44,7 @@ class SentimentAnalyzer():
         #Compare words from the array of the tweet to the words used to identify the sentiment
         for w in processedText:
             if w in self.pos_words:
-                score += 0.5
+                score += 0.6
             if w in self.neg_words:
                 score -= 0.4
         #Determine the sentiment

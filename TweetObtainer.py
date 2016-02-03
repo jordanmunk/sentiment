@@ -6,6 +6,7 @@ from Writer import Writer
 from tweepy import Stream
 from tweepy.streaming import StreamListener
 import json
+import time
 
 class TweetObtainer(StreamListener):
     writer = None
@@ -54,6 +55,7 @@ class TweetObtainer(StreamListener):
                 self.currentNumber += 1
             self.liveView.update(sentiment)
             self.pieView.update()
+            time.sleep(1)
         return True
 
     def on_error(self, status_code):
