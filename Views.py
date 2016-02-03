@@ -21,7 +21,6 @@ pos = 0
 neg = 0
 neut = 0
 
-
 class HomeView(tk.Tk):
     controller = ''
     frames = {}
@@ -54,6 +53,8 @@ class HomeView(tk.Tk):
 
     def get_live(self):
         return self.frames[LiveView]
+    def get_pie(self):
+        return self.frames[PieChartView]
 
     def get_pie(self):
         return self.frames[PieChartView]
@@ -112,13 +113,14 @@ class PieChartView(tk.Frame):
         amount = [pos, neut, neg]
         print(amount)
         colors = ['yellowgreen', 'mediumpurple', 'lightskyblue']
-        explode = (1, 0, 0)  # proportion with which to offset each wedge
+        explode = (0.1, 0, 0)  # proportion with which to offset each wedge
         entry1 = ttk.Entry(self)
         entry1.pack()
         button3 = ttk.Button(self, text="Start stream ",
                              command=lambda: controller.start_stream(
                                  entry1.get()))
         button3.pack()
+
         piechart.pie(amount,  # data
                      explode=explode,  # offset parameters
                      labels=labels,  # slice labels
