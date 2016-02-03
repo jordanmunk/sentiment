@@ -1,5 +1,10 @@
+'''
+Author: Anton Steenvoorden
+Bevat alle GUI views. Maakt een klein beetje gebruik van MVC.
+Heeft globale variabele pos, neut, neg voor de piechart en de charts zelf
+zijn ook globaal. Gebaseerd op tutorials van PythonProgramming.net
+'''
 import matplotlib
-
 matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, \
     NavigationToolbar2TkAgg
@@ -7,7 +12,6 @@ from matplotlib.figure import Figure
 from matplotlib import style
 import tkinter as tk
 from tkinter import ttk
-import matplotlib.pyplot as plt
 
 LARGE_FONT = ("Verdana", 12)
 style.use("ggplot")
@@ -20,7 +24,9 @@ piechart = figure2.add_subplot(111)
 pos = 0
 neg = 0
 neut = 0
-
+'''
+Container die alle views vast heeft.
+'''
 class HomeView(tk.Tk):
     controller = ''
     frames = {}
@@ -43,23 +49,32 @@ class HomeView(tk.Tk):
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame(WelcomePage)
-
+    '''
+    Methode om de verschillende "Frames" te wisselen
+    '''
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
-
+    '''
+    Methode om de stream op te starten zodra er op start stream wordt gedrukt
+    '''
     def start_stream(self, text):
         self.controller.start_stream(text)
-
+    '''
+    Getter voor de "Live View"
+    '''
     def get_live(self):
         return self.frames[LiveView]
+    '''
+    Getter voor de "Pie Chart View"
+    '''
     def get_pie(self):
         return self.frames[PieChartView]
 
-    def get_pie(self):
-        return self.frames[PieChartView]
-
-
+'''
+vanuit hier kan je de applicatie door
+navigeren
+'''
 class WelcomePage(tk.Frame):
     controller = ''
 
@@ -90,6 +105,9 @@ class WelcomePage(tk.Frame):
         button3.pack()
 
 
+'''
+Klein beetje achtergrond informatie over de applicatie
+'''
 class AboutView(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -109,6 +127,9 @@ class AboutView(tk.Frame):
         label2.pack(pady=10, padx=10)
 
 
+'''
+View met daarin de Pie Chart. Wordt live geupdate door de tweetobtainer
+'''
 class PieChartView(tk.Frame):
     canvas = None
     controller = None
@@ -149,16 +170,24 @@ class PieChartView(tk.Frame):
                                          expand=True)
 
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
+    '''
+    Roept de stop functie aan op de controller, en gaat terug naar de
+    startpagina
+    '''
     def stop(self):
         self.controller.show_frame(WelcomePage)
         self.controller.controller.stop_stream()
-
+    '''
+    Zorgt ervoor dat de pie chart de nieuwe waarden gebruikt
+    '''
     def update(self):
         piechart.clear()
         piechart.pie([pos, neut, neg])
         self.canvas.draw_idle()
 
+'''
+View met de lijngrafiek. Wordt live geupdate door de tweetobtainer
+'''
 class LiveView(tk.Frame):
     xar = []
     yar = []
@@ -192,11 +221,17 @@ class LiveView(tk.Frame):
         toolbar = NavigationToolbar2TkAgg(self.canvas, self)
         toolbar.update()
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
+    '''
+    Roept de stop functie aan op de controller, en gaat terug naar de
+    startpagina
+    '''
     def stop(self):
         self.controller.show_frame(WelcomePage)
         self.controller.controller.stop_stream()
-
+    '''
+    Kijkt of de tekst die binnenkomt begint met pos, neg, of neut en aan de
+    hand daarvan voert hij waarden op voor de verschillende views
+    '''
     def update(self, text):
         print("Update called")
         self.x += 1
@@ -217,5 +252,3 @@ class LiveView(tk.Frame):
         figure_axes.clear()
         figure_axes.plot(self.xar, self.yar)
         self.canvas.draw()
-
-# ani = animation.FuncAnimation(f, update, interval=1000)

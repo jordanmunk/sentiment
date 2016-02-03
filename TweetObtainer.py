@@ -1,3 +1,10 @@
+'''
+Author: Anton Steenvoorden
+Is verantwoordelijk voor het ophalen van de tweets, en het verwerken ervan.
+Ontvangt een live view en een pie chart view en een woord waarop gezocht
+moet worden. Maakt gebruik van tweepy, en haalt de twitter API sleutels op
+uit mijn Tokens.py
+'''
 import tweepy
 from Tokens import consumer_key, consumer_secret, \
     access_secret, access_token
@@ -7,7 +14,9 @@ from tweepy import Stream
 from tweepy.streaming import StreamListener
 import json
 import time
-
+'''
+Erft over van Tweepy's StreamListener
+'''
 class TweetObtainer(StreamListener):
     writer = None
     sentimentAnalyzer = None
@@ -29,9 +38,6 @@ class TweetObtainer(StreamListener):
     def init_stream(self):
         self.writer.setSaveFile('StreamedTweets.txt')
 
-    def init_search(self):
-        self.writer.setSaveFile('SearchedTweets.txt')
-
     def start(self):
         print("Setting up tweetobtainer")
         #TwitterAPI authorization
@@ -40,7 +46,13 @@ class TweetObtainer(StreamListener):
         self.stream = Stream(auth, self)
         self.stream.filter(track=[self.parameter], languages=['en'])
 
-    #Gets called everytime data is streamed through the Twitter API
+    '''
+    Wordt elke keer als er een tweet binnenkomt aangeroepen
+    Stuurt de opgehaalde tweet door naar de analyse en schrijft de
+    analyse+tweet weg in een bestand als er minder dan 10.000 zijn
+    opgehaald deze sessie. Slaapt voor 1 seconde zodat er genoeg tijd is om
+    de tweet te verwerken.
+    '''
     def on_data(self, data):
         text = json.loads(data)
 

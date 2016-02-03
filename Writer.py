@@ -1,4 +1,7 @@
-
+'''
+Verantwoordelijk voor het wegschrijven van de sentiment+tweet in een bestand
+Dit bestand wordt gekozen door de setSaveFile. 
+'''
 class Writer:
     savefile = ''
     def setSaveFile(self, filename):

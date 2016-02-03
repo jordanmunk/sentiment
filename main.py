@@ -1,3 +1,9 @@
+'''
+Author: Anton Steenvoorden
+Hier begint de applicatie. Er wordt een controller aangemaakt en een
+container voor de views (HomeView) vervolgens roepen we op de controller de
+setview functie aan en geven we de live view en de pie chart view mee.
+'''
 from Controller import Controller
 from Views import *
 

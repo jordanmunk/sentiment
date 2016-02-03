@@ -1,3 +1,10 @@
+'''
+Author: Anton Steenvoorden
+Creeert de tweetobtainer en geeft de live en pie view hieraan mee zodat de
+update functie kan worden geroepen. Zet de tweetobtainer in een aparte
+thread dmv een lambda expressie. Dit zodat er geen conflict is met de GUI
+thread
+'''
 from TweetObtainer import TweetObtainer
 import threading
 
